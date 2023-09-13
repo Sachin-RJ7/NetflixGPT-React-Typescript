@@ -1,11 +1,10 @@
-
-function App() {
-
+import { Outlet } from "react-router-dom"
+const App = () => {
   return (
     <>
-     <h1>Project Started...</h1>
+      <Outlet />
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
