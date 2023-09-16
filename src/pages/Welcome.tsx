@@ -159,6 +159,15 @@ const Welcome = () => {
           </div>
         </div>
       </section>
+
+      <footer className="flex items-center justify-center h-full bg-black text-white py-12 px-6 sm:px-12">
+        <div className="container mx-auto flex items-center justify-center">
+          <p className="text-lg md:text-xl">
+            &copy; Made with React <span className="text-orange-400"> ♥ </span>{" "}
+            by <span className="text-orange-400">Sachin kumar</span>
+          </p>
+        </div>
+      </footer>
     </>
   );
 };
