@@ -1,10 +1,13 @@
 import { HiMiniLanguage } from "react-icons/hi2";
 import { RiArrowDropRightLine } from "react-icons/ri";
 
-import Logo from "../assets/logo.png";
+import Accordion from "../components/Accordion";
 import Button from "../components/Button";
-import { WELCOME_BACKGROUND_IMAGE_URL } from "../config/constant";
+import { WELCOME_BACKGROUND_IMAGE_URL, accordion } from "../config/constant";
+
+import Logo from "../assets/logo.png";
 import TvFrame from "../assets/tv.png";
+import StrangerThingsMobile from "../assets/stranger_things_mobile.jpg";
 
 const Welcome = () => {
   const backgroundStyle = {
@@ -15,7 +18,10 @@ const Welcome = () => {
 
   return (
     <>
-      <div style={backgroundStyle} className="relative w-full min-h-screen">
+      <div
+        style={backgroundStyle}
+        className="relative w-full min-h-[95vh] border-b-[15px] border-zinc-900"
+      >
         {/* OVERLAY */}
         <div className="absolute inset-0 bg-black opacity-60 z-0"></div>
         <header className="max-w-7xl mx-auto py-4 flex items-center justify-between h-full relative z-10 px-2">
@@ -65,7 +71,7 @@ const Welcome = () => {
           </form>
         </div>
       </div>
-      <section className="w-full bg-black border-b-[15px] border-zinc-700">
+      <section className="w-full bg-black border-b-[15px] border-zinc-900">
         <div className="max-w-7xl mx-auto md:flex md:items-center md:justify-between gap-8 px-4 py-52 md:py-72">
           <div className="text-white text-center md:text-start">
             <h1 className="font-bold text-5xl">Enjoy on your TV</h1>
@@ -81,7 +87,13 @@ const Welcome = () => {
               </div>
 
               <div className="absolute top-24 md:-top-28 left-[74px] md:left-20 z-30">
-                <video autoPlay muted loop playsInline className="w-[350px] md:w-[430px]">
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-[350px] md:w-[430px]"
+                >
                   <source
                     src="https://assets.nflxext.com/ffe/siteui/acquisition/ourStory/fuji/desktop/video-tv-in-0819.m4v"
                     type="video/mp4"
@@ -90,6 +102,60 @@ const Welcome = () => {
                 </video>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+      <section className="w-full bg-black border-b-[15px] border-zinc-900">
+        <div className="max-w-7xl mx-auto md:flex md:items-center md:justify-between gap-8 px-4 py-44">
+          <div className="mb-20 md:mb-0">
+            <img src={StrangerThingsMobile} alt="mobile" />
+          </div>
+          <div className="text-white text-center md:text-start">
+            <h2 className="font-bold text-4xl">
+              Download your shows to watch offline
+            </h2>
+            <p className="mt-6 text-xl md:text-2xl">
+              Save your favourites easily and always have something to watch.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section className="w-full bg-black border-b-[15px] border-zinc-900">
+        <div className="max-w-7xl mx-auto px-6 py-20 text-center">
+          <h3 className="text-white text-3xl md:text-5xl font-bold mb-12">
+            Frequently Asked Questions
+          </h3>
+          <div className="text-white font-medium">
+            {accordion &&
+              accordion.map((items) => (
+                <Accordion
+                  key={items.id}
+                  id={items.id}
+                  question={items.question}
+                  answer1={items.answer1}
+                  answer2={items?.answer2}
+                />
+              ))}
+          </div>
+          <div className="mt-12">
+            <p className="text-white text-xl md:text-2xl mt-4">
+              Ready to watch? Enter your email to create or restart your
+              membership.
+            </p>
+            <form className="mt-4 flex flex-col md:flex-row justify-center items-center space-x-5 px-5">
+              <input
+                type="email"
+                placeholder="Email address"
+                className="w-full md:w-[350px] text-white text-lg border border-s-white outline-none focus:border-[3px] px-5 py-3 md:py-5 rounded-md bg-black inset-0 opacity-50 mb-6 md:mb-0"
+              />
+              <div className="flex justify-center items-center bg-red-600 w-[200px] rounded-md hover:bg-red-700 transition duration-150 ease-in-out group">
+                <Button
+                  text="Get Started"
+                  className="py-3 md:py-5 font-bold text-xl group-hover:bg-red-700"
+                />
+                <RiArrowDropRightLine className="text-white text-4xl" />
+              </div>
+            </form>
           </div>
         </div>
       </section>
