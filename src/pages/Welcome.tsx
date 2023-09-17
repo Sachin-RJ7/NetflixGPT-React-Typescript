@@ -1,15 +1,23 @@
+import { useContext } from "react";
 import { HiMiniLanguage } from "react-icons/hi2";
-import { RiArrowDropRightLine } from "react-icons/ri";
 
 import Accordion from "../components/Accordion";
 import Button from "../components/Button";
 import { WELCOME_BACKGROUND_IMAGE_URL, accordion } from "../config/constant";
+import { ShowCardContext } from "../context/ShowCardContext";
+import LoginCard from "../components/LoginCard";
 
 import Logo from "../assets/logo.png";
 import TvFrame from "../assets/tv.png";
 import StrangerThingsMobile from "../assets/stranger_things_mobile.jpg";
 
 const Welcome = () => {
+  const { showLoginCard, setShowLoginCard } = useContext(ShowCardContext);
+
+  function toggleLoginCard() {
+    setShowLoginCard(!showLoginCard);
+  }
+
   const backgroundStyle = {
     backgroundImage: `url('${WELCOME_BACKGROUND_IMAGE_URL}')`,
     backgroundSize: "cover",
@@ -20,9 +28,8 @@ const Welcome = () => {
     <>
       <div
         style={backgroundStyle}
-        className="relative w-full min-h-[95vh] border-b-[15px] border-zinc-900"
+        className="relative w-full min-h-screen border-b-[15px] border-zinc-900"
       >
-        {/* OVERLAY */}
         <div className="absolute inset-0 bg-black opacity-60 z-0"></div>
         <header className="max-w-7xl mx-auto py-4 flex items-center justify-between h-full relative z-10 px-2">
           <div>
@@ -40,36 +47,39 @@ const Welcome = () => {
                 <option value="hindi">Hindi</option>
               </select>
             </div>
-            <Button text="Sign In" className="px-3 md:px-4 py-[6px]" />
+            <div onClick={() => setShowLoginCard(!showLoginCard)}>
+              <Button text="Sign In" className="px-3 md:px-4 py-[6px]" />
+            </div>
           </div>
         </header>
-        {/* CENTERED TEXT */}
-        <div className="absolute w-full left-0 right-0 top-1/2 transform -translate-y-1/2 text-center z-10">
-          <h1 className="text-white text-4xl md:text-5xl font-bold ">
-            Laughter. Tears. Thrills. Find it all on Netflix.
-          </h1>
-          <p className="text-white text-xl md:text-2xl mt-6">
-            Watch anywhere. Cancel anytime.
-          </p>
-          <p className="text-white text-xl md:text-2xl mt-4">
-            Ready to watch? Enter your email to create or restart your
-            membership.
-          </p>
-          <form className="mt-4 flex flex-col md:flex-row justify-center items-center space-x-5 px-5">
-            <input
-              type="email"
-              placeholder="Email address"
-              className="w-full md:w-[350px] text-white text-lg border border-s-white outline-none focus:border-[3px] px-5 py-3 md:py-5 rounded-md bg-black inset-0 opacity-50 mb-6 md:mb-0"
-            />
-            <div className="flex justify-center items-center bg-red-600 w-[200px] rounded-md hover:bg-red-700 transition duration-150 ease-in-out group">
-              <Button
-                text="Get Started"
-                className="py-3 md:py-5 font-bold text-xl group-hover:bg-red-700"
-              />
-              <RiArrowDropRightLine className="text-white text-4xl" />
-            </div>
-          </form>
-        </div>
+
+        {!showLoginCard && (
+          <div className="absolute w-full left-0 right-0 top-1/2 transform -translate-y-1/2 text-center z-10 px-3">
+            <h1 className="text-white text-4xl md:text-5xl font-bold">
+              Laughter. Tears. Thrills. Find it all on Netflix.
+            </h1>
+            <p className="text-white text-xl md:text-2xl mt-6">
+              Watch anywhere. Cancel anytime.
+            </p>
+            <p className="text-white text-xl md:text-2xl mt-4">
+              Ready to watch? Click below to create or restart your membership.
+            </p>
+            {!showLoginCard && (
+              <div className="flex items-center w-full justify-center mt-8">
+                <div className="flex justify-center items-center bg-red-600 w-[200px] rounded-md hover:bg-red-700 transition duration-150 ease-in-out group">
+                  <Button
+                    text="Get Started"
+                    onclick={toggleLoginCard}
+                    className="w-full py-3 md:py-5 font-bold text-xl group-hover:bg-red-700"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+        {showLoginCard && (
+          <LoginCard showCard={showLoginCard} setShowCard={setShowLoginCard} />
+        )}
       </div>
       <section className="w-full bg-black border-b-[15px] border-zinc-900">
         <div className="max-w-7xl mx-auto md:flex md:items-center md:justify-between gap-8 px-4 py-52 md:py-72">
@@ -139,23 +149,19 @@ const Welcome = () => {
           </div>
           <div className="mt-12">
             <p className="text-white text-xl md:text-2xl mt-4">
-              Ready to watch? Enter your email to create or restart your
-              membership.
+              Ready to watch? Click below to create or restart your membership.
             </p>
-            <form className="mt-4 flex flex-col md:flex-row justify-center items-center space-x-5 px-5">
-              <input
-                type="email"
-                placeholder="Email address"
-                className="w-full md:w-[350px] text-white text-lg border border-s-white outline-none focus:border-[3px] px-5 py-3 md:py-5 rounded-md bg-black inset-0 opacity-50 mb-6 md:mb-0"
-              />
-              <div className="flex justify-center items-center bg-red-600 w-[200px] rounded-md hover:bg-red-700 transition duration-150 ease-in-out group">
+            <div className="flex w-full justify-center mt-8">
+              <div
+                onClick={toggleLoginCard}
+                className="bg-red-600 w-[200px] rounded-md hover:bg-red-700 transition duration-150 ease-in-out cursor-pointer group"
+              >
                 <Button
                   text="Get Started"
-                  className="py-3 md:py-5 font-bold text-xl group-hover:bg-red-700"
+                  className="w-full py-3 md:py-5 font-bold text-xl group-hover:bg-red-700  mr-6"
                 />
-                <RiArrowDropRightLine className="text-white text-4xl" />
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </section>
