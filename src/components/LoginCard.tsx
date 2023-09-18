@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 import Button from "./Button";
+import checkValidate from "../utils/validate";
 
 type setShowCard = (value: boolean) => void;
 
@@ -11,6 +12,15 @@ type LoginCardProps = {
 
 const LoginCard = ({ showCard, setShowCard }: LoginCardProps) => {
   const [isSignInForm, setIsSignInForm] = useState<boolean>(false);
+
+  const name = useRef(null);
+  const email = useRef(null);
+  const password = useRef(null);
+
+  function handleLoginClick(email, password) {
+    const message = checkValidate(email.current.value, password.current.value);
+    setErrorMessage(message);
+  }
 
   function toggleSignInForm() {
     setIsSignInForm((prevState) => !prevState);
@@ -28,26 +38,30 @@ const LoginCard = ({ showCard, setShowCard }: LoginCardProps) => {
         <strong className="mt-6 text-white font-bold text-3xl flex">
           {isSignInForm ? "Sign Up" : "Sign In"}
         </strong>
-        <form className="mt-8">
+        <form onSubmit={(e) => e.preventDefault()} className="mt-8">
           {isSignInForm && (
             <input
+              ref={name}
               type="text"
               placeholder="Your name"
               className="w-full text-white text-lg outline-none focus:border-2 px-5 py-3 md:py-4 rounded-md bg-zinc-700 mb-6"
             />
           )}
           <input
+            ref={email}
             type="email"
             placeholder="Email address"
             className="w-full text-white text-lg outline-none focus:border-2 px-5 py-3 md:py-4 rounded-md bg-zinc-700 mb-6"
           />
           <input
+            ref={password}
             type="password"
             placeholder="Password"
             className="w-full text-white text-lg  outline-none focus:border-2 px-5 py-3 md:py-4 rounded-md bg-zinc-700 mb-6"
           />
           <Button
             text={isSignInForm ? "Sign Up" : "Sign In"}
+            onclick={handleLoginClick}
             className="px-4 py-2 w-full"
           />
           <p onClick={toggleSignInForm} className="mt-6 text-left text-white">
