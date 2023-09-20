@@ -25,7 +25,6 @@ const LoginCard = ({ showCard, setShowCard }: LoginCardProps) => {
   const password = useRef<HTMLInputElement | null>(null);
 
   function handleLoginClick() {
-    // validate the form data
     if (email.current && password.current) {
       const message = checkValidate(
         email.current.value,
@@ -35,25 +34,7 @@ const LoginCard = ({ showCard, setShowCard }: LoginCardProps) => {
 
       if (message) return;
 
-      // signIn / singUp - authenctication
       if (!isSignInForm) {
-        // sign up
-        createUserWithEmailAndPassword(
-          auth,
-          email.current.value,
-          password.current.value
-        )
-          .then((userCredential) => {
-            const user = userCredential.user;
-            console.log(user);
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            setErrorMessage(errorCode + "" + errorMessage);
-            console.log(errorCode + "" + errorMessage);
-          });
-      } else {
         signInWithEmailAndPassword(
           auth,
           email.current.value,
@@ -63,9 +44,27 @@ const LoginCard = ({ showCard, setShowCard }: LoginCardProps) => {
             const user = userCredential.user;
           })
           .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            setErrorMessage(errorCode + "" + errorMessage);
+            if (error.code === "auth/invalid-login-credentials") {
+              setErrorMessage(
+                "Please check your email and password and try again"
+              );
+              return;
+            }
+          });
+      } else {
+        createUserWithEmailAndPassword(
+          auth,
+          email.current.value,
+          password.current.value
+        )
+          .then((userCredential) => {
+            const user = userCredential.user;
+          })
+          .catch((error) => {
+            if (error.code === "auth/email-already-in-use") {
+              setErrorMessage("This email is already in use.");
+              return;
+            }
           });
       }
     }
