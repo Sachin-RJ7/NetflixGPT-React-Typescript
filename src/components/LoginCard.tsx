@@ -8,6 +8,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 type setShowCard = (value: boolean) => void;
 
@@ -23,6 +24,8 @@ const LoginCard = ({ showCard, setShowCard }: LoginCardProps) => {
   const name = useRef<HTMLInputElement | null>(null);
   const email = useRef<HTMLInputElement | null>(null);
   const password = useRef<HTMLInputElement | null>(null);
+
+  const navigate = useNavigate();
 
   function handleLoginClick() {
     if (email.current && password.current) {
@@ -42,6 +45,7 @@ const LoginCard = ({ showCard, setShowCard }: LoginCardProps) => {
         )
           .then((userCredential) => {
             const user = userCredential.user;
+            navigate("/browse");
           })
           .catch((error) => {
             if (error.code === "auth/invalid-login-credentials") {
@@ -59,6 +63,7 @@ const LoginCard = ({ showCard, setShowCard }: LoginCardProps) => {
         )
           .then((userCredential) => {
             const user = userCredential.user;
+            navigate("/browse");
           })
           .catch((error) => {
             if (error.code === "auth/email-already-in-use") {

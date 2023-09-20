@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { ShowCardContext } from "./context/ShowCardContext";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 type ShowCardContextValue = {
   showLoginCard: boolean;
@@ -17,7 +19,9 @@ const App = () => {
 
   return (
     <ShowCardContext.Provider value={loginCardContextValue}>
-      <Outlet />
+      <Provider store={store}>
+        <Outlet />
+      </Provider>
     </ShowCardContext.Provider>
   );
 };

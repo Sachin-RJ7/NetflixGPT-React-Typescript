@@ -1,4 +1,5 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { HiMiniLanguage } from "react-icons/hi2";
 
 import Accordion from "../components/Accordion";
@@ -11,8 +12,24 @@ import Logo from "../assets/logo.png";
 import TvFrame from "../assets/tv.png";
 import StrangerThingsMobile from "../assets/stranger_things_mobile.jpg";
 
+import { auth } from "../utils/firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { addUser, removeUser } from "../redux/userSlice";
+
 const Welcome = () => {
+  const dispatch = useDispatch();
   const { showLoginCard, setShowLoginCard } = useContext(ShowCardContext);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const { uid, email, displayName } = user;
+        dispatch(addUser({ uid: uid, email: email, displayName: displayName }));
+      } else {
+        dispatch(removeUser());
+      }
+    });
+  });
 
   function toggleLoginCard() {
     setShowLoginCard(!showLoginCard);
