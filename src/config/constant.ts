@@ -1,6 +1,29 @@
-import { AccordionType } from "../utils/types"
+import { AccordionType, NavigationTypes } from "../utils/types"
 
 export const WELCOME_BACKGROUND_IMAGE_URL = 'https://assets.nflxext.com/ffe/siteui/vlv3/dc1cf82d-97c9-409f-b7c8-6ac1718946d6/14a8fe85-b6f4-4c06-8eaf-eccf3276d557/IN-en-20230911-popsignuptwoweeks-perspective_alpha_website_large.jpg'
+
+export const navigations: NavigationTypes[] = [
+   {
+      to: '/browse',
+      page: 'Home',
+   },
+   {
+      to: '/tv-shows',
+      page: 'TV Shows',
+   },
+   {
+      to: '/movies',
+      page: 'Movies',
+   },
+   {
+      to: '/populars',
+      page: 'New & Popular',
+   },
+   {
+      to: '/my-list',
+      page: 'My List',
+   },
+]
 
 export const accordion: AccordionType[] = [
    {
