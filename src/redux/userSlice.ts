@@ -4,12 +4,14 @@ interface UserState {
     uid: string | null;
     email: string | null;
     displayName: string | null;
+    photoURL: string | null;
 }
 
 const initialState: UserState = {
     uid: null,
     email: null,
-    displayName: null
+    displayName: null,
+    photoURL: null,
 }
 
 const userSlice = createSlice({

@@ -23,8 +23,15 @@ const Welcome = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        const { uid, email, displayName } = user;
-        dispatch(addUser({ uid: uid, email: email, displayName: displayName }));
+        const { uid, email, displayName, photoURL } = user;
+        dispatch(
+          addUser({
+            uid: uid,
+            email: email,
+            displayName: displayName,
+            photoURL: photoURL,
+          })
+        );
       } else {
         dispatch(removeUser(null));
       }
@@ -58,7 +65,7 @@ const Welcome = () => {
               <select
                 name="language"
                 id="language"
-                className="cursor-pointer bg-black"
+                className="cursor-pointer bg-black outline-none"
               >
                 <option value="english">English</option>
                 <option value="hindi">Hindi</option>

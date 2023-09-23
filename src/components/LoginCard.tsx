@@ -1,4 +1,6 @@
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import Button from "./Button";
 import checkValidate from "../utils/validate";
@@ -7,8 +9,9 @@ import { auth } from "../utils/firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { addUser } from "../redux/userSlice";
 
 type setShowCard = (value: boolean) => void;
 
@@ -20,6 +23,8 @@ type LoginCardProps = {
 const LoginCard = ({ showCard, setShowCard }: LoginCardProps) => {
   const [isSignInForm, setIsSignInForm] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const dispatch = useDispatch();
 
   const name = useRef<HTMLInputElement | null>(null);
   const email = useRef<HTMLInputElement | null>(null);
@@ -63,6 +68,21 @@ const LoginCard = ({ showCard, setShowCard }: LoginCardProps) => {
         )
           .then((userCredential) => {
             const user = userCredential.user;
+            updateProfile(user, {
+              displayName: name?.current?.value,
+              photoURL:
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxqlvxC6znHwLTt--Jl00MKMeI8gcb50az3Q&usqp=CAU",
+            }).then(() => {
+              const { uid, email, displayName, photoURL } = user;
+              dispatch(
+                addUser({
+                  uid: uid,
+                  email: email,
+                  displayName: displayName,
+                  photoURL: photoURL,
+                })
+              );
+            });
             navigate("/browse");
           })
           .catch((error) => {
