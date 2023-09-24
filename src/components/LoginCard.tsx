@@ -1,5 +1,4 @@
 import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import Button from "./Button";
@@ -30,8 +29,6 @@ const LoginCard = ({ showCard, setShowCard }: LoginCardProps) => {
   const email = useRef<HTMLInputElement | null>(null);
   const password = useRef<HTMLInputElement | null>(null);
 
-  const navigate = useNavigate();
-
   function handleLoginClick() {
     if (email.current && password.current) {
       const message = checkValidate(
@@ -50,7 +47,6 @@ const LoginCard = ({ showCard, setShowCard }: LoginCardProps) => {
         )
           .then((userCredential) => {
             const user = userCredential.user;
-            navigate("/browse");
           })
           .catch((error) => {
             if (error.code === "auth/invalid-login-credentials") {
@@ -83,7 +79,6 @@ const LoginCard = ({ showCard, setShowCard }: LoginCardProps) => {
                 })
               );
             });
-            navigate("/browse");
           })
           .catch((error) => {
             if (error.code === "auth/email-already-in-use") {
@@ -140,7 +135,7 @@ const LoginCard = ({ showCard, setShowCard }: LoginCardProps) => {
           />
           <p onClick={toggleSignInForm} className="mt-6 text-left text-white">
             {isSignInForm ? "Already a member?" : "New to Netflix?"}{" "}
-            <span className="text-red-500 cursor-pointer hover:text-red-400 font-medium transition duration-150 ease-in-out">
+            <span className="text-red-500 cursor-pointer hover:text-red-400 active:bg-red-300 font-medium transition duration-150 ease-in-out">
               {isSignInForm ? "Sign In" : "Sign Up now"}
             </span>
           </p>

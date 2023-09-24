@@ -15,9 +15,11 @@ import StrangerThingsMobile from "../assets/stranger_things_mobile.jpg";
 import { auth } from "../utils/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { addUser, removeUser } from "../redux/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Welcome = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { showLoginCard, setShowLoginCard } = useContext(ShowCardContext);
 
   useEffect(() => {
@@ -32,11 +34,13 @@ const Welcome = () => {
             photoURL: photoURL,
           })
         );
+        navigate('/browse')
       } else {
         dispatch(removeUser(null));
+        navigate("/")
       }
     });
-  });
+  },[]);
 
   function toggleLoginCard() {
     setShowLoginCard(!showLoginCard);

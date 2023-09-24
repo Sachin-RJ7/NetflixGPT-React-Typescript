@@ -5,24 +5,43 @@ import NavigationLink from "./NavigationLink";
 import { navigations } from "../config/constant";
 import logo from "../assets/logo.png";
 
-import { signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import { useEffect } from "react";
+import { addUser, removeUser } from "../redux/userSlice";
 
 const Header = () => {
   const user = useSelector((store: RootState) => store.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   function handleSignOut() {
     signOut(auth)
-      .then(() => {
-        navigate("/");
-      })
-      .catch((error) => {
-        navigate("/error-page");
-      });
+      .then(() => {})
+      .catch((error) => {});
   }
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const { uid, email, displayName, photoURL } = user;
+        dispatch(
+          addUser({
+            uid: uid,
+            email: email,
+            displayName: displayName,
+            photoURL: photoURL,
+          })
+        );
+        navigate("/browse");
+      } else {
+        dispatch(removeUser(null));
+        navigate("/");
+      }
+    });
+  }, []);
 
   return (
     <header className="fixed left-0 right-0 w-full mx-auto max-w-7xl py-3 background-transparent">

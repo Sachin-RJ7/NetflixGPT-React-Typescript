@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { ShowCardContext } from "./context/ShowCardContext";
-import { Provider } from "react-redux";
-import store from "./redux/store";
+import Header from "./components/Header";
+
+import { useSelector } from "react-redux";
+import { RootState } from "./redux/store";
 
 type ShowCardContextValue = {
   showLoginCard: boolean;
@@ -11,6 +13,7 @@ type ShowCardContextValue = {
 
 const App = () => {
   const [showLoginCard, setShowLoginCard] = useState<boolean>(false);
+  const user = useSelector((store: RootState) => store.user);
 
   const loginCardContextValue: ShowCardContextValue = {
     showLoginCard,
@@ -19,9 +22,8 @@ const App = () => {
 
   return (
     <ShowCardContext.Provider value={loginCardContextValue}>
-      <Provider store={store}>
-        <Outlet />
-      </Provider>
+      {user && <Header />}
+      <Outlet />
     </ShowCardContext.Provider>
   );
 };
