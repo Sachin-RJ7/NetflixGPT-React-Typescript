@@ -12,6 +12,8 @@ import {
 } from "firebase/auth";
 import { addUser } from "../redux/userSlice";
 
+import Spinner from "../components/Spinner";
+
 type setShowCard = (value: boolean) => void;
 
 type LoginCardProps = {
@@ -22,6 +24,7 @@ type LoginCardProps = {
 const LoginCard = ({ showCard, setShowCard }: LoginCardProps) => {
   const [isSignInForm, setIsSignInForm] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const dispatch = useDispatch();
 
@@ -39,6 +42,8 @@ const LoginCard = ({ showCard, setShowCard }: LoginCardProps) => {
 
       if (message) return;
 
+      setLoading(true);
+
       if (!isSignInForm) {
         signInWithEmailAndPassword(
           auth,
@@ -47,6 +52,7 @@ const LoginCard = ({ showCard, setShowCard }: LoginCardProps) => {
         )
           .then((userCredential) => {
             const user = userCredential.user;
+            setLoading(false);
           })
           .catch((error) => {
             if (error.code === "auth/invalid-login-credentials") {
@@ -81,6 +87,7 @@ const LoginCard = ({ showCard, setShowCard }: LoginCardProps) => {
             });
           })
           .catch((error) => {
+            setLoading(false);
             if (error.code === "auth/email-already-in-use") {
               setErrorMessage("This email is already in use.");
               return;
@@ -128,14 +135,19 @@ const LoginCard = ({ showCard, setShowCard }: LoginCardProps) => {
             className="w-full text-white text-lg  outline-none focus:border-2 px-5 py-3 md:py-4 rounded-md bg-zinc-700 mb-2"
           />
           <p className="text-red-700 mb-6 ml-2 font-medium">{errorMessage}</p>
-          <Button
-            text={isSignInForm ? "Sign Up" : "Sign In"}
-            onclick={handleLoginClick}
-            className="px-4 py-2 w-full"
-          />
+          {loading ? (
+            <Spinner />
+          ) : (
+            <Button
+              text={isSignInForm ? "Sign Up" : "Sign In"}
+              onclick={handleLoginClick}
+              className="px-4 py-2 w-full"
+            />
+          )}
+
           <p onClick={toggleSignInForm} className="mt-6 text-left text-white">
             {isSignInForm ? "Already a member?" : "New to Netflix?"}{" "}
-            <span className="text-red-500 cursor-pointer hover:text-red-400 active:bg-red-300 font-medium transition duration-150 ease-in-out">
+            <span className="btnClick text-red-500 cursor-pointer hover:text-red-400 active:bg-red-300 font-medium transition duration-150 ease-in-out">
               {isSignInForm ? "Sign In" : "Sign Up now"}
             </span>
           </p>
