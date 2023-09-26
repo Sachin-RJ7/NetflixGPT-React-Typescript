@@ -1,9 +1,8 @@
+import useNowPlayingMovies from "../hooks/useNowPlayingMovies";
 
 const Browse = () => {
-  return (
-    <section>
-    </section>
-  );
+  useNowPlayingMovies();
+  return <section></section>;
 };
 
 export default Browse;
