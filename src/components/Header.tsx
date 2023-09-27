@@ -44,7 +44,7 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="fixed left-0 right-0 w-full mx-auto max-w-7xl py-3 background-transparent">
+    <header className="fixed left-0 right-0 w-full mx-auto max-w-7xl py-3 background-transparent bg-black">
       <div className="flex justify-between items-center">
         <div className="flex justify-between items-center space-x-4">
           <Link to="/">

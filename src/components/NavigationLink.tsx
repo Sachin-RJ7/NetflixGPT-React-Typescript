@@ -12,7 +12,7 @@ const NavigationLink = ({ to, page }: NavigationTypes) => {
     <NavLink
       to={to}
       onClick={() => navigate(to)}
-      className={`text-black border-b-[3px] text-lg font-medium ${
+      className={`text-white border-b-[3px] text-lg font-medium ${
         pathMatchOut(to) ? "border-red-500" : "border-transparent"
       }`}
     >
