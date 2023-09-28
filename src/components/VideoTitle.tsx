@@ -1,10 +1,10 @@
-import React from 'react'
 
 type VideoTitleProps = {
     title: string;
     overView: string;
 }
-const VideoTitle = ({title, overview}: VideoTitleProps) => {
+
+const VideoTitle = ({title, overView}: VideoTitleProps) => {
   return (
     <div>VideoTitle</div>
   )
